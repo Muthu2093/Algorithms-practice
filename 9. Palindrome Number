@@ -1,3 +1,5 @@
+## tried without using any space - without conversion to string - failing few test cases
+
 class Solution 
 {
     public boolean isPalindrome(int x) 
@@ -5,23 +7,38 @@ class Solution
         if (x<0){
             return false;
         }
-        if (x>-1 && x<10){
+        if (x>=0 && x<10){
             return true;
         }
-        int i;
-        int j= ((int)(Math.log10(x)))*10;
-        for (i=1;x/i>0;i=i*10,j=j/10){
-            //System.out.print(j);
-            //System.out.print((x/j)%10);
-            //System.out.print((x/i)%10);
-            if (((x/j)%10)!=((x/i)%10)){
-                //System.out.print(j);
-                //System.out.print((x/j)%10);
-                //System.out.print((x/i)%10);
+        while (x!=0){
+            if ((x%10)!=(x/(int)(Math.pow(10,(int)(Math.log10(x)))))){
+                //System.out.print(x%10);
+                //System.out.print(x/(int)(Math.pow(10,(int)(Math.log10(x)))));
                 return false;
             }
+            System.out.print(x);
+            System.out.print("\n");
+            //System.out.print(x%10);
+            //System.out.print(x/(int)(Math.pow(10,(int)(Math.log10(x)))));
+            //System.out.print("\n");
+            //System.out.print("\n");
+            if((int)(Math.log10(x)+1) == 1 ||(int)(Math.log10(x)+1) == 2 ){
+                break;
+            }
+            x=x/10;
+            //System.out.print(x);
+            //System.out.print("\n");
+            System.out.print((((float)(x))/(int)(Math.pow(10,(int)(Math.log10(x))))) + "-" + (float)(x/(int)(Math.pow(10,(int)(Math.log10(x))))) + "*" + (int)(Math.pow(10,(int)(Math.log10(x)-1))) );
+            System.out.print("\n");
+            //System.out.print((int)(Math.log10(x)));
+            //System.out.print("\n");
+            //x=x%(10*(int)(Math.log10(x)));
+            x = (int)(((((float)(x))/(int)(Math.pow(10,(int)(Math.log10(x))))) - (float)(x/(int)(Math.pow(10,(int)(Math.log10(x)))))) * (int)(Math.pow(10,(int)(Math.log10(x)-1)))); 
+            System.out.print(x);
+            System.out.print("\n");
+            System.out.print("\n");
         }
         return true;
-        
+                       
     }
 }
