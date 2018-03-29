@@ -1,0 +1,27 @@
+class Solution 
+{
+    public boolean isPalindrome(int x) 
+    {
+        if (x<0){
+            return false;
+        }
+        if (x>-1 && x<10){
+            return true;
+        }
+        int i;
+        int j= ((int)(Math.log10(x)))*10;
+        for (i=1;x/i>0;i=i*10,j=j/10){
+            //System.out.print(j);
+            //System.out.print((x/j)%10);
+            //System.out.print((x/i)%10);
+            if (((x/j)%10)!=((x/i)%10)){
+                //System.out.print(j);
+                //System.out.print((x/j)%10);
+                //System.out.print((x/i)%10);
+                return false;
+            }
+        }
+        return true;
+        
+    }
+}
