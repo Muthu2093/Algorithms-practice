@@ -1,0 +1,74 @@
+class Solution {
+    public boolean isValidSudoku(char[][] board) {
+        int i,j,p=0,q=0,check=0, a,b;
+        for (i=0;i<9;i++){
+            for(j=0;j<9;j++){
+                System.out.print(board[i][j]);
+            }
+            System.out.print("\n");
+        }
+        for (i=0;i<3;i++){
+            for (j=0;j<3;j++){
+                for (p = i*3; p<(i*3)+3;p++){
+                    for (q = j*3; q<(i*3)+3;q++){
+                        System.out.print(board[p][q] + "\n");
+                        if (board[p][q]=='.'){
+                            System.out.print("skipped"+board[p][q] + "\n");
+                            break;
+                        }  
+                        // Checks rows
+                        for (check=p+1;check<9;check++){
+                            if (check == 9){
+                                break;
+                            }
+                            if (board[p][q] == board[check][q]){
+                                System.out.print("1");
+                                return false;
+                            }
+                            //System.out.print(p + "," + q + "==" + check + "," + q);
+                            //System.out.print("\n");
+                            }
+                        }
+                        
+                        // Checks columns
+                        for (check=q+1;check<9;check++){
+                            if (check ==9){
+                                break;
+                            }
+                            if (board[p][q] == board[p][check]){
+                                System.out.print("2" + "\n");
+                                System.out.print(board[p][q] + "==" + board[p][check]);
+                                return false;
+                            }
+                        }
+                        
+                        // Checks 3*3 box
+                        for (a=p;a<(i*3)-3;a++){
+                            for (b=q;b<(j*3)-3;b++){
+                                for (check=a+1;check<(i*3)-3;check++){
+                                    if (check ==(i*3)+3){
+                                      break;
+                                    }
+                                    if (board[p][q] == board[check][q]){
+                                        System.out.print("3");
+                                       return false;
+                                    }
+                                }
+                                for (check=b+1;check<(j*3)-3;check++){
+                                    if (check ==(j*3)+3){
+                                        break;
+                                    }
+                                    if (board[p][q] == board[p][check]){
+                                        System.out.print("4");
+                                        return false;
+                                    }
+                                }
+                                
+                            }
+                        }     
+                    }
+                }
+            }
+        return true;
+        }
+    }
