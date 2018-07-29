@@ -15,6 +15,8 @@
  *     ListNode(int x) { val = x; }
  * }
  */
+
+// Recursion
 class Solution {
     public ListNode reverseList(ListNode head){
         ListNode rev = reverse(head, null);
@@ -31,5 +33,32 @@ class Solution {
         head.next = tail;
         ListNode temp = reverse(next,head);
         return temp;
+    }
+}
+
+
+// Iterative method //
+class Solution {
+    public ListNode reverseList(ListNode head){
+        if (head == null){
+            return head;
+        }
+        if (head.next == null){
+            return head;
+        }
+        ListNode left = new ListNode(0);
+        ListNode right = null;
+        while(head != null){
+            if (right == null){
+                right = new ListNode(head.val);
+                head = head.next;
+                continue;
+            }
+            left.next = new ListNode(head.val);
+            left.next.next = right;
+            right = left.next;
+            head = head.next;
+        }
+        return left.next;
     }
 }
