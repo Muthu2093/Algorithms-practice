@@ -1,67 +1,34 @@
+/**
+ * Given a sorted array, two integers k and x, find the k closest elements to x in the array. The result should also be sorted in ascending order. If there is a tie, the smaller elements are always preferred.
+ * Example 1:
+ * Input: [1,2,3,4,5], k=4, x=3
+ * Output: [1,2,3,4]
+ * Example 2:
+ * Input: [1,2,3,4,5], k=4, x=-1
+ * Output: [1,2,3,4]
+ * Note:
+ * The value k is positive and will always be smaller than the length of the sorted array.
+ * Length of the given array is positive and will not exceed 104
+ * Absolute value of elements in the array and x will not exceed 104
+ */    
+
 class Solution {
     public List<Integer> findClosestElements(int[] arr, int k, int x) {
-        List<Integer> lis = new ArrayList<>();
-        int l=0,r=arr.length-1, m=0;
-        boolean flag = false;
-        if (k<arr[0]){
-            flag = true;
-            r=k;
-        }
-        if (k>arr[0]){
-            flag = true;
-            l=r-k;
-        }
-        if (flag){
-            while(l<=r){
-                System.out.println(l);
-                lis.add(arr[l]);
-                l++;
-            }
-        }
-        while (l<=r){
-            m = (r+l) / 2;
-            if(arr[m] == x){
-                break;
-            }
-            else if(arr[m] < x){
-                l = m+1;
-            }
+        int l = 0;
+        int r = arr.length - k;
+        while (l < r) {
+            int m = (l + r) / 2;
+            if (x - arr[m] > arr[m + k] - x) {
+                l = m + 1;
+            } 
             else{
-                r = m-1;
+                r = m;
             }
         }
-        int i = 1;
-        l=m;
-        r=m;
-        if (arr[m] > x){
-            i=0;
-            r=m-1;
+        List<Integer> list = new ArrayList<>(k);
+        for (int i = l; i < l + k; i++) {
+          list.add(arr[i]);
         }
-        else if (arr[m] < x){
-            i=0;
-            l=m+1;
-        }
-        while(i<k){
-            System.out.println(l + ":" + m + ":" + r);
-            if (l <= 0){
-                
-                r++;
-            }
-            else if (r >= arr.length-1){
-                l--;
-            }
-            else if (x - arr[l-1] <= arr[r+1] - x) {
-                l--;
-            }
-            else {
-                r++;
-            }
-            i += 1;
-        }
-        while(l<=r){
-            lis.add(arr[l]);
-            l++;
-        }
-        return lis;
+        return list;
     }
 }
