@@ -8,73 +8,44 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        if(lists.length == 1){
+        int len = lists.length;
+        if (len == 0){
+            return null;
+        }
+        if (len == 1){
             return lists[0];
         }
-        
-        if(lists.length == 0){
-            return null;
+        ListNode curr = new ListNode(0);
+        curr.next = mergeLists(lists[0], lists[1]);
+        for (int i=2; i<len; i++){
+            curr.next = mergeLists(curr.next, lists[i]);
         }
-        
-        int max = -99999, i=0;
-        int LISID = 0;
-        boolean flag = false;
-        
-        for (i=0;i<lists.length; i++){
-            ListNode a = new ListNode(0);
-            a = lists[i];
-            while(lists[i] != null){
-                if (max < lists[i].val){
-                    max = lists[i].val;
-                    LISID = i;
-                }
-                lists[i] = lists[i].next;
-            }
-            lists[i] = a;
-        }
-        if (max == -99999){
-            return null;
-        }
-        
-        ListNode a = new ListNode(0);
-        ListNode initial = a;
-        while (lists[LISID] != null){
-            if (flag == true){
-                a.next = new ListNode(0);
-                a = a.next;
-            }
-            flag = true;
-            a = smallValue(LISID,a,lists);
-        }
-        return initial;
+        return curr.next;
     }
-    
-    public ListNode smallValue(int LISID, ListNode a, ListNode[] lists){
-        a.val = lists[LISID].val;
-        int lisID = LISID;
-        for(int i=0; i<lists.length; i++){
-            int val;
-            if (lists[i] == null){
-                //System.out.println("here"); 
-                continue;
+    public ListNode mergeLists(ListNode l1, ListNode l2){
+        ListNode curr = new ListNode(0);
+        ListNode ptr = curr;
+        while(l1 != null && l2 != null){
+            if (l1.val < l2.val){
+                curr.next = new ListNode(l1.val);
+                l1 = l1.next;
             }
-            if(lists[i].val < a.val){
-                //System.out.println(lists[i].val +"::::::"+ a.val); 
-                a.val = lists[i].val;
-                lisID=i;
+            else{
+                curr.next = new ListNode(l2.val);
+                l2 = l2.next;
             }
+            curr = curr.next;
         }
-        
-        //System.out.println(lisID + ":" + a.val);
-        
-        if (lists[lisID].next != null){
-            lists[lisID] = lists[lisID].next;
+        while (l1 != null){
+            curr.next = new ListNode(l1.val);
+            curr = curr.next;
+            l1 = l1.next;
         }
-        else{
-            lists[lisID] = lists[lisID].next;
-            //lists[lisID].val = 10000;
+        while (l2 != null){
+            curr.next = new ListNode(l2.val);
+            curr = curr.next;
+            l2 = l2.next;
         }
-        return a;
+        return ptr.next;
     }
-    
 }
