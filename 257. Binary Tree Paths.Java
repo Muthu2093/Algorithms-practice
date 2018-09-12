@@ -24,11 +24,7 @@
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> result = new ArrayList<String>();
-        if (root == null){
-            return result;
-        }
         String curr = "";
-        //curr = Integer.toString(root.val);
         result = binaryTreePathsRec(root, curr);
         return result;
     }
@@ -44,8 +40,6 @@ class Solution {
             curr = curr.substring(2,curr.length());
             result.add(curr);
         }
-        // System.out.println(root.val);
-        // System.out.println(curr + ":" + 2 + ":" + curr.length());
         return result;
     }
     
