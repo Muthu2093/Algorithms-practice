@@ -1,0 +1,202 @@
+        // Static variables to speed up recursion //
+    static HashSet<Integer> prime;
+    static HashSet<Integer> notPrime;
+    static int[] prime_count;
+    
+    // Complete the primeQuery function below.
+    static List<Integer> primeQuery(int n, List<Integer> first, List<Integer> second, List<Integer> values, List<Integer> queries) {
+        
+        // Initializing Static Variables //
+        prime = new HashSet<Integer>();
+        notPrime = new HashSet<Integer>();
+        prime_count = new int[n+1];
+        
+        List<Integer>[] child_list = new LinkedList[n+1];
+        List<Integer>[] par_list = new LinkedList[n+1];
+        List<Integer>[] adj_list = new LinkedList[n+1];
+        List<Integer> result = new ArrayList<Integer>();
+        int m = first.size();
+        
+        for (int i=1; i<n+1; i++){
+            child_list[i] = new LinkedList<Integer>();
+            par_list[i] = new LinkedList<Integer>();
+            adj_list[i] = new LinkedList<Integer>();
+        }
+        
+        
+        for (int i=0; i<m; i++){
+            int parent = first.get(i);
+            int child = second.get(i);
+            child_list[parent].add(child);
+            par_list[child].add(parent);
+        }
+        
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(1);
+        
+        // Creates an adjancecy list of all the nodes in the Tree //
+        while(!queue.isEmpty()){
+            int curr = queue.poll();
+            
+            adj_list[curr].addAll(child_list[curr]);
+            adj_list[curr].addAll(par_list[curr]);
+
+            for (Integer value: adj_list[curr]){
+                queue.add(value);
+                child_list[value].remove(Integer.valueOf(curr));
+                par_list[value].remove(Integer.valueOf(curr));
+            }
+        }
+        
+        countPrime(prime_count, adj_list, values, 1);
+        
+        for (int i=0; i<queries.size(); i++){
+            result.add(prime_count[queries.get(i)]);
+        }
+        
+        return result;
+        
+    }
+    
+    // Recursive Dynamic Programmic in Depth First Search (Post order Traversal) is used to calculate the count of each nodes in the Tree //
+    static void countPrime(int[] prime_count, List<Integer>[] adj_list, List<Integer> values, int curr_node){
+        if (adj_list[curr_node].isEmpty()){
+            prime_count[curr_node] = isPrime(values.get(curr_node-1)) ? 1 : 0;
+            return;
+        }
+        
+        for (Integer child: adj_list[curr_node]){
+            countPrime(prime_count, adj_list, values, child);
+            prime_count[curr_node] += prime_count[child];
+        }
+        
+        prime_count[curr_node]  += isPrime(values.get(curr_node-1)) ? 1 : 0;
+        
+        return;
+    }
+
+    
+    // Function to check if a number is prime //
+    // Memoization is used to return the output for already checked input - though not necessary in this case //
+    static boolean isPrime(int n){
+        
+        if (prime.contains(n) || n==2){
+            return true;
+        }
+        else if (notPrime.contains(n) || n == 1 || n%2 == 0){
+            return false;
+        }
+        
+        int max = (int)(Math.sqrt(n)+1);
+        for (int i=3; i<max; i+=2){
+            if (n%i == 0){
+                notPrime.add(n);
+                return false;
+            }
+        }
+        prime.add(n);
+        
+        return true; 
+    }
+
+// Static variables to speed up recursion //
+    static HashSet<Integer> prime;
+    static HashSet<Integer> notPrime;
+    static int[] prime_count;
+    
+    // Complete the primeQuery function below.
+    static List<Integer> primeQuery(int n, List<Integer> first, List<Integer> second, List<Integer> values, List<Integer> queries) {
+        
+        // Initializing Static Variables //
+        prime = new HashSet<Integer>();
+        notPrime = new HashSet<Integer>();
+        prime_count = new int[n+1];
+        
+        List<Integer>[] child_list = new LinkedList[n+1];
+        List<Integer>[] par_list = new LinkedList[n+1];
+        List<Integer>[] adj_list = new LinkedList[n+1];
+        List<Integer> result = new ArrayList<Integer>();
+        int m = first.size();
+        
+        for (int i=1; i<n+1; i++){
+            child_list[i] = new LinkedList<Integer>();
+            par_list[i] = new LinkedList<Integer>();
+            adj_list[i] = new LinkedList<Integer>();
+        }
+        
+        
+        for (int i=0; i<m; i++){
+            int parent = first.get(i);
+            int child = second.get(i);
+            child_list[parent].add(child);
+            par_list[child].add(parent);
+        }
+        
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(1);
+        
+        // Creates an adjancecy list of all the nodes in the Tree //
+        while(!queue.isEmpty()){
+            int curr = queue.poll();
+            
+            adj_list[curr].addAll(child_list[curr]);
+            adj_list[curr].addAll(par_list[curr]);
+
+            for (Integer value: adj_list[curr]){
+                queue.add(value);
+                child_list[value].remove(Integer.valueOf(curr));
+                par_list[value].remove(Integer.valueOf(curr));
+            }
+        }
+        
+        countPrime(prime_count, adj_list, values, 1);
+        
+        for (int i=0; i<queries.size(); i++){
+            result.add(prime_count[queries.get(i)]);
+        }
+        
+        return result;
+        
+    }
+    
+    // Recursive Dynamic Programmic in Depth First Search (Post order Traversal) is used to calculate the count of each nodes in the Tree //
+    static void countPrime(int[] prime_count, List<Integer>[] adj_list, List<Integer> values, int curr_node){
+        if (adj_list[curr_node].isEmpty()){
+            prime_count[curr_node] = isPrime(values.get(curr_node-1)) ? 1 : 0;
+            return;
+        }
+        
+        for (Integer child: adj_list[curr_node]){
+            countPrime(prime_count, adj_list, values, child);
+            prime_count[curr_node] += prime_count[child];
+        }
+        
+        prime_count[curr_node]  += isPrime(values.get(curr_node-1)) ? 1 : 0;
+        
+        return;
+    }
+
+    
+    // Function to check if a number is prime //
+    // Memoization is used to return the output for already checked input - though not necessary in this case //
+    static boolean isPrime(int n){
+        
+        if (prime.contains(n) || n==2){
+            return true;
+        }
+        else if (notPrime.contains(n) || n == 1 || n%2 == 0){
+            return false;
+        }
+        
+        int max = (int)(Math.sqrt(n)+1);
+        for (int i=3; i<max; i+=2){
+            if (n%i == 0){
+                notPrime.add(n);
+                return false;
+            }
+        }
+        prime.add(n);
+        
+        return true; 
+    }
+
