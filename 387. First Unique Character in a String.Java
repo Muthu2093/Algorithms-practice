@@ -10,22 +10,21 @@
  
 class Solution {
     public int firstUniqChar(String s) {
-        if (s.length() == 0){
-            return -1;
+        int[] flag = new int[26];
+        
+        int len = s.length();
+        for (int i=0; i<len; i++){
+            int index = (int)(s.charAt(i) - 'a');
+            flag[index]++;
         }
-        if (s.length() == 1 || !s.substring(1,s.length()).contains(s.charAt(0)+"")){
-            return 0;
-        }
-        int i = 1;
-        while (i<s.length()){
-            char c = s.charAt(i);
-            if (!s.substring(0,i).contains(c+"") && !s.substring(i+1,s.length()).contains(c+"")){
+        
+        for (int i=0; i<len; i++){
+            int index = (int)(s.charAt(i) - 'a');
+            if (flag[index] == 1){
                 return i;
             }
-
-            i++;
         }
-        return -1;
         
+        return -1;
     }
 }
