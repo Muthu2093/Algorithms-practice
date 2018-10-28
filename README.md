@@ -1,2 +1,2 @@
 # Algorithms-practice
-Coding algorithms
+Contains Algorithmic questions solved from leetcode.
