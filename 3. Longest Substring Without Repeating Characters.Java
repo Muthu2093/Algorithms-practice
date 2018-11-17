@@ -7,18 +7,19 @@
  */    
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        if (s.length() == 0 || s.length() == 1){
-            return s.length();
-        }
-        int length = 0;
-        HashMap <Character, Integer> flag = new HashMap<>();
-        for(int i=0,j=0; j<s.length(); j++){
-            if(flag.containsKey(s.charAt(j))){
-                i = Math.max(flag.get(s.charAt(j)), i);
+        HashMap<Character, Integer> hash = new HashMap<>();
+        char[] ch = s.toCharArray();
+        int maxLen = 0;
+        int startLen = 0;
+        
+        for (int i=0; i<ch.length; i++){
+            if (hash.containsKey(ch[i])){
+                startLen = Math.max(hash.get(ch[i]) + 1, startLen);
             }
-            flag.put(s.charAt(j),j+1);
-            length = Math.max(length,j-i+1);
+            hash.put(ch[i], i); 
+            maxLen = Math.max(maxLen, i-startLen+1);
         }
-        return length;
+        
+        return maxLen;
     }
 }
