@@ -12,24 +12,25 @@
  
 class Solution {
     public int[] twoSum(int[] nums, int target) {
-        int[] res = new int[2];
-        if (nums.length == 0){
-            return res;
-        }
-        int m = 0, n = nums.length-1;
-        while (n>m){
-            if (nums[m] + nums[n] == target){
-                res[0] = m+1;
-                res[1] = n+1;
-                return res;
+        int[] result = new int[2];
+        int l=0, r=nums.length-1;
+        
+        while (l<r){
+            int sum = nums[l] + nums[r];
+            if (sum == target){
+                break;
             }
-            else if(nums[m] + nums[n] < target){
-                m++;
+            else if (sum > target){
+                r--;
             }
-            else if(nums[m] + nums[n] > target){
-                n--;
+            else{
+                l++;
             }
         }
-        return res;
+        
+        result[0] = l+1;
+        result[1] = r+1;
+        
+        return result;
     }
 }

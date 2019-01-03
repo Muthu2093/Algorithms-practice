@@ -17,45 +17,29 @@
  */
  
 class Solution {
-    boolean[][] visited;
     public int numIslands(char[][] grid) {
-        if (grid.length == 0 || grid[0].length == 0){
-            return 0;
-        }
-        visited = new boolean[grid.length][grid[0].length];
         int count = 0;
+        
         for (int i=0; i<grid.length; i++){
             for (int j=0; j<grid[0].length; j++){
-                if (visited[i][j]){
-                    continue;
-                }
-                else if(grid[i][j] == '0'){
-                    visited[i][j] = true;
-                } 
-                else{
-                    count++;
+                if (grid[i][j] == '1'){
                     dfs(grid, i, j);
+                    count++;
                 }
             }
         }
+        
         return count;
     }
     
     public void dfs(char[][] grid, int i, int j){
-        visited[i][j] = true;
-        if (i > 0 && !visited[i-1][j] && grid[i-1][j] == '1'){
-            dfs(grid, i-1, j);
+        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] == '0'){
+            return;
         }
-        if (j > 0 && !visited[i][j-1] && grid[i][j-1] == '1'){
-            dfs(grid, i, j-1);
-        }
-        if (i < grid.length-1 && !visited[i+1][j] && grid[i+1][j] == '1'){
-            System.out.println("here" + i + ":" + j);
-            dfs(grid, i+1, j);
-        }
-        if (j < grid[0].length-1 && !visited[i][j+1] && grid[i][j+1] == '1'){
-            dfs(grid, i, j+1);
-        }
-        return;
+        grid[i][j] = '0';
+        dfs(grid, i, j+1);
+        dfs(grid, i, j-1);
+        dfs(grid, i+1, j);
+        dfs(grid, i-1, j);
     }
 }
