@@ -17,7 +17,8 @@
  * Follow up:
  * Could you solve it in linear time?
  */
- 
+
+// Two pass - O(n) solution - using priority queue// 
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         if (nums.length == 0){
@@ -39,6 +40,49 @@ class Solution {
             result[i] = Math.max(right_max[i], left_max[i+k-1]);
         }
         
+        
+        return result;
+    }
+}
+
+// Single pass - O(n*logn) solution
+
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums.length == 0){
+            return new int[0];
+        }
+        int[] result = new int[nums.length-k+1];
+        
+        PriorityQueue<List<Integer>> pq = new PriorityQueue<>(new Comparator<List<Integer>>(){
+            @Override
+            public int compare(List<Integer> a, List<Integer> b){
+                return b.get(0).compareTo(a.get(0));
+            }
+        });
+                
+        for (int i=0; i<k-1; i++){
+            List<Integer> entry = new ArrayList<>();
+            entry.add(nums[i]);
+            entry.add(i);
+            pq.offer(entry);
+        }
+        
+        for (int i=k-1; i<nums.length;i++){
+            List<Integer> entry = new ArrayList<>();
+            entry.add(nums[i]);
+            entry.add(i);
+            pq.offer(entry);
+                
+            entry = pq.poll();
+            while (entry.get(1)<i-k+1){
+                entry = pq.poll();
+            }
+            if (entry.get(1) > i-k+1){
+                pq.offer(entry);
+            }
+            result[i-k+1] = entry.get(0);            
+        }
         
         return result;
     }
