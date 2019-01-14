@@ -62,3 +62,5 @@ class Solution {
         return left.next;
     }
 }
+
+// Iterative O(n) time inplace
