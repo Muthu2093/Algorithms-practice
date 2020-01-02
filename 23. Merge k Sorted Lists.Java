@@ -6,46 +6,52 @@
  *     ListNode(int x) { val = x; }
  * }
  */
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        int len = lists.length;
-        if (len == 0){
-            return null;
-        }
-        if (len == 1){
-            return lists[0];
-        }
-        ListNode curr = new ListNode(0);
-        curr.next = mergeLists(lists[0], lists[1]);
-        for (int i=2; i<len; i++){
-            curr.next = mergeLists(curr.next, lists[i]);
-        }
-        return curr.next;
+        return mergeKLists(lists, 0, lists.length-1);
     }
-    public ListNode mergeLists(ListNode l1, ListNode l2){
-        ListNode curr = new ListNode(0);
-        ListNode ptr = curr;
-        while(l1 != null && l2 != null){
+    
+    public ListNode mergeKLists(ListNode[] lists, int l, int r){
+        if (l == r){
+            return lists[l];
+        }
+        
+        if (l < r){
+            int m = (r-l)/2 + l;
+            ListNode leftList = mergeKLists(lists, l, m);
+            ListNode rightList = mergeKLists(lists, m+1, r);
+            return mergeTwoLists(leftList, rightList);
+        } 
+        
+        return null;
+    }
+    
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2){
+        ListNode root = new ListNode(0), ptr = root;
+        while (l1 != null && l2 != null){
             if (l1.val < l2.val){
-                curr.next = new ListNode(l1.val);
+                root.next = l1;
                 l1 = l1.next;
-            }
-            else{
-                curr.next = new ListNode(l2.val);
+            } else {
+                root.next = l2;
                 l2 = l2.next;
             }
-            curr = curr.next;
+            root = root.next;
         }
-        while (l1 != null){
-            curr.next = new ListNode(l1.val);
-            curr = curr.next;
-            l1 = l1.next;
+        if (l1 != null){
+            root.next = l1;
+        } else if (l2 != null){
+            root.next = l2;
         }
-        while (l2 != null){
-            curr.next = new ListNode(l2.val);
-            curr = curr.next;
-            l2 = l2.next;
-        }
+        
         return ptr.next;
     }
 }
