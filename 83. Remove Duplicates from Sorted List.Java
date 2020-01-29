@@ -8,7 +8,7 @@
  * Output: 1->2->3
  */
  
- /**
+/**
  * Definition for singly-linked list.
  * public class ListNode {
  *     int val;
@@ -16,33 +16,19 @@
  *     ListNode(int x) { val = x; }
  * }
  */
- 
 class Solution {
     public ListNode deleteDuplicates(ListNode head) {
-        if (head == null){
-            return head;
+        ListNode leftPtr = head, rightPtr = head;
+        
+        while (rightPtr != null && rightPtr.next != null){
+            while (rightPtr != null && leftPtr.val == rightPtr.val){
+                rightPtr = rightPtr.next;
+            }
+            leftPtr.next = rightPtr;
+            leftPtr = rightPtr;
         }
-        ListNode curr = head;
-        ListNode prev = head;
-        while(curr.next != null){
-            while (curr.val == curr.next.val){
-                curr = curr.next;
-                if (curr.next == null){
-                    break;
-                }
-            }
-            if (curr.next == null){
-                curr = null;
-            }
-            else{
-                curr = curr.next;
-            }
-            prev.next = curr;
-            prev = prev.next;
-            if (curr == null){
-                break;
-            }
-        }
+        
         return head;
     }
+}
 }
